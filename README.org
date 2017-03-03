@@ -7,6 +7,7 @@ Brings the noise.
 1. Install Twisted, in a virtualenv if you like.
 
    #+BEGIN_SRC bash
+   cd ~/path/to/ios-music-appreciation-club
    pip install -r requirements.txt
    #+END_SRC
 
