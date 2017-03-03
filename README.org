@@ -1,0 +1,29 @@
+* ios-music-appreciation-club
+
+Brings the noise.
+
+** Setup
+
+1. Install Twisted, in a virtualenv if you like.
+
+#+BEGIN_SRC bash
+pip install -r requirements.txt
+#+END_SRC
+
+Or use the Debian/Ubuntu package:
+
+#+BEGIN_SRC bash
+sudo apt-get install python-twisted
+#+END_SRC
+
+2. Follow the [[https://mpv.io/installation/][MPV installation instructions]].
+
+3. Run mpvdaemon.py, pass port as a environment variable LISTEN_PORT
+
+#+BEGIN_SRC bash
+LISTEN_PORT=8080 python mpvdaemon.py
+#+END_SRC
+
+** TODO
+
+   - Init script/supervisord config
