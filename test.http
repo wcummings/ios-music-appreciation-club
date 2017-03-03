@@ -1,0 +1,9 @@
+# Use w/ restclient-mode
+
+# Play
+POST http://localhost:8080/play
+
+https://www.youtube.com/watch?v=WaU-pnassYM
+
+# Stop
+DELETE http://localhost:8080/play
