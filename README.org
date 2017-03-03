@@ -28,3 +28,5 @@ Brings the noise.
 ** TODO:
 
    - Init script/supervisord config
+   - Make the whole thing less shit, add queuing, persistence, playlists etc.
+   - Support more mpv flags
