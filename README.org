@@ -24,6 +24,6 @@ sudo apt-get install python-twisted
 LISTEN_PORT=8080 python mpvdaemon.py
 #+END_SRC
 
-** TODO
+** TODO:
 
    - Init script/supervisord config
