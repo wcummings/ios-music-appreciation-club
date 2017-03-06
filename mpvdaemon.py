@@ -3,6 +3,8 @@ from twisted.web.server import Site
 from twisted.internet import protocol, reactor
 from twisted.python import log
 from twisted.python.logfile import DailyLogFile
+
+
 import json, sys, os
 
 LISTEN_PORT = os.environ.get('LISTEN_PORT', 8080)
@@ -21,7 +23,8 @@ class MPVProtocol(protocol.Protocol):
             log.msg("mpv stdout: %s" % line)
 
     def childDataReceived(self, name, data):
-        pass
+        for line in data.split('\n'):
+            log.msg("mpv output: %s" % line)
 
     def childConnectionLost(self, childFD):
         pass
@@ -38,15 +41,20 @@ class MPVProtocol(protocol.Protocol):
 class PlayResource(resource.Resource):
 
     def render_POST(self, request):
-        url = request.content.getvalue()
-        if not url:
+        path = request.content.getvalue()
+        if not path:
             request.setResponseCode(400)
             return ""
         if isCurrentlyPlaying:
             request.setResponseCode(409)
             return ""
-        log.msg("Playing %s" % url)
-        self.spawnMPV(url)
+
+        if path.startswith("LCL"):
+            path="/media/AMD/"+path[3:]
+            path = path.strip('\n')
+
+        log.msg("Playing %s" % path)
+        self.spawnMPV(path)
         request.setResponseCode(201)
         return ""
 
@@ -58,12 +66,12 @@ class PlayResource(resource.Resource):
         request.setResponseCode(201)
         return ""
         
-    def spawnMPV(self, url):
+    def spawnMPV(self, path):
         global mpvProtocol
         global isCurrentlyPlaying
         isCurrentlyPlaying = True
         mpvProtocol = MPVProtocol()
-        reactor.spawnProcess(mpvProtocol, 'mpv', ['mpv', url])
+        reactor.spawnProcess(mpvProtocol, 'mpv', ['mpv', '--no-video', path], env=os.environ)
 
 if __name__ == "__main__":
     log.startLogging(sys.stdout)
