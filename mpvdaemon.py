@@ -41,14 +41,18 @@ class MPVProtocol(protocol.Protocol):
 class PlayResource(resource.Resource):
 
     def render_POST(self, request):
-        path = request.args.get('path', request.content.getvalue())
+        if request.args.has_key('path') and len(request.args['path']) > 0:
+            path = request.args['path'][0]
+        else:
+            path = request.content.getvalue()
+
         if not path:
             request.setResponseCode(400)
             return ""
         if isCurrentlyPlaying:
             request.setResponseCode(409)
             return ""
-
+        
         if path.startswith("LCL"):
             path="/media/AMD/"+path[3:]
             path = path.strip('\n')
