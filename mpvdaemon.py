@@ -41,7 +41,7 @@ class MPVProtocol(protocol.Protocol):
 class PlayResource(resource.Resource):
 
     def render_POST(self, request):
-        path = request.content.getvalue()
+        path = request.args.get('path', request.content.getvalue())
         if not path:
             request.setResponseCode(400)
             return ""
